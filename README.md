@@ -79,6 +79,6 @@ Conducted field observations of Yellow Wagtail (*Motacilla flava*) behavioral pa
 ---
 
 ## Contact
-- 📧 Email: [your email address]
-- 🔗 LinkedIn: [your LinkedIn URL]
+- 📧 Email: [email address]
+- 🔗 LinkedIn: [LinkedIn URL]
 - 📄 CV: [you can upload your CV PDF to this repository and link it here]
