@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nisal Theekshana Wickramasinghe — Plant Biotechnologist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:   #0d3d2e;
+      --green-mid:    #1a6645;
+      --green-bright: #2db87a;
+      --green-light:  #7ddbb0;
+      --sage:         #a8c5a0;
+      --cream:        #f0ede6;
+      --gold:         #c9a84c;
+      --text-primary: #e8f5ee;
+      --text-muted:   #9ec4b0;
+      --card-bg:      rgba(255,255,255,0.04);
+      --card-border:  rgba(45,184,122,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--green-dark);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      width: 12px; height: 12px;
+      background: var(--green-bright);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(45,184,122,0.5);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.25s ease, height 0.25s ease, opacity 0.3s;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* ── MOUSE-FOLLOWING GRADIENT AURA ── */
+    #aura {
+      position: fixed; pointer-events: none; z-index: 0;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(45,184,122,0.10) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: left 0.6s ease, top 0.6s ease;
+      filter: blur(40px);
+    }
+
+    /* ── BACKGROUND PARTICLES ── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: 0; opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(13,61,46,0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      transition: all 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--green-bright);
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--green-bright);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--green-bright); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 0 10vw;
+      overflow: hidden;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--green-bright);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--green-bright);
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: all 0.25s;
+      cursor: none;
+    }
+    .btn-primary {
+      background: var(--green-bright);
+      color: var(--green-dark);
+      border: 1.5px solid var(--green-bright);
+    }
+    .btn-primary:hover {
+      background: var(--green-light);
+      border-color: var(--green-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(45,184,122,0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1.5px solid var(--card-border);
+    }
+    .btn-outline:hover {
+      border-color: var(--green-bright);
+      color: var(--green-bright);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      opacity: 0;
+      animation: fadeIn 1s 1.4s forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.68rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--green-bright), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ── SECTION SHARED ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 6rem 10vw;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--green-bright);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 3rem;
+      line-height: 1.15;
+    }
+    .section-title em { font-style: italic; color: var(--green-bright); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── ABOUT ── */
+    #about { background: rgba(255,255,255,0.015); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text-muted);
+      line-height: 1.85;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .about-text p strong { color: var(--text-primary); font-weight: 500; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.4rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .stat-card:hover {
+      border-color: var(--green-bright);
+      transform: translateY(-3px);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--green-bright);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green-bright), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover {
+      border-color: rgba(45,184,122,0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-icon {
+      font-size: 2rem; margin-bottom: 1rem;
+      display: block;
+    }
+    .project-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .tag {
+      font-size: 0.68rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      background: rgba(45,184,122,0.1);
+      border: 1px solid rgba(45,184,122,0.25);
+      color: var(--green-light);
+      letter-spacing: 0.04em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: rgba(255,255,255,0.015); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.6rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .skill-group:hover {
+      border-color: rgba(45,184,122,0.35);
+      transform: translateY(-3px);
+    }
+    .skill-group-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .skill-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .skill-list li {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      padding-left: 1rem;
+      position: relative;
+    }
+    .skill-list li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--green-bright);
+      font-size: 0.7rem;
+    }
+
+    /* ── EDUCATION & CERTIFICATIONS ── */
+    #education { }
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 3rem;
+    }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 0; top: 6px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--green-bright), transparent);
+    }
+    .timeline-item {
+      padding-left: 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute;
+      left: -4px; top: 6px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      box-shadow: 0 0 10px var(--green-bright);
+    }
+    .timeline-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+    .timeline-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .timeline-sub {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .cert-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .cert-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .cert-item:hover {
+      border-color: rgba(45,184,122,0.4);
+      transform: translateX(4px);
+    }
+    .cert-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .cert-name { font-size: 0.85rem; font-weight: 500; }
+    .cert-org { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: rgba(255,255,255,0.015); }
+    .exp-grid { display: flex; flex-direction: column; gap: 1.2rem; }
+    .exp-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .exp-card:hover {
+      border-color: rgba(45,184,122,0.4);
+      transform: translateX(4px);
+    }
+    .exp-icon { font-size: 1.8rem; margin-top: 0.1rem; }
+    .exp-role { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .exp-org { font-size: 0.83rem; color: var(--green-bright); margin-bottom: 0.2rem; }
+    .exp-period { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-bottom: 0.7rem; }
+    .exp-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── CONNECT ── */
+    #connect { text-align: center; }
+    .connect-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto 3rem;
+    }
+    .connect-links {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .connect-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem 2rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      text-decoration: none;
+      min-width: 160px;
+      transition: all 0.3s;
+    }
+    .connect-card:hover {
+      border-color: var(--green-bright);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(45,184,122,0.2);
+    }
+    .connect-card-icon { font-size: 1.8rem; }
+    .connect-card-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .connect-card-value {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── AWARDS RIBBON ── */
+    .awards-strip {
+      display: flex; flex-wrap: wrap; gap: 0.8rem;
+      margin-top: 2rem;
+    }
+    .award-badge {
+      background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      padding: 0.45rem 1rem;
+      font-size: 0.78rem;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .leaf-float {
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.06;
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 6vw; }
+      .about-grid, .edu-grid { grid-template-columns: 1fr; }
+      #hero { padding: 0 6vw; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Mouse-following aura -->
+  <div id="aura"></div>
+
+  <!-- Animated particle canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">N. Wickramasinghe</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Research</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <span class="leaf-float" style="top:15%; right:12%; animation-delay:0s;">🌿</span>
+    <span class="leaf-float" style="top:65%; right:25%; animation-delay:2s; font-size:2rem;">🍃</span>
+    <span class="leaf-float" style="top:40%; right:6%; animation-delay:4s; font-size:1.8rem;">🌱</span>
+
+    <p class="hero-eyebrow">Plant Biotechnology · Sri Lanka</p>
+    <h1 class="hero-name">Nisal <em>Theekshana</em><br>Wickramasinghe</h1>
+    <p class="hero-tagline">
+      Plant Biotechnology graduate bridging laboratory science with sustainable agriculture — tissue culture, microbiology, and data-driven research in service of Sri Lanka's agri-food future.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Research ↓</a>
+      <a href="https://linkedin.com/in/nisal-wickramasinghe" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="https://github.com/nisalwickramasinghe" target="_blank" class="btn btn-outline">GitHub</a>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <p class="section-label">01 · About</p>
+      <h2 class="section-title">Rooted in science,<br>growing toward <em>impact</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I am a <strong>Plant Biotechnology graduate</strong> from the University of Colombo (2nd Class Upper Division, GPA 3.64), with hands-on experience across tissue culture, molecular biology, microbiology, and field ecology. My undergraduate journey spanned four research projects — from optimizing <em>in vitro</em> sterilization protocols for underutilized Sri Lankan fruit crops to studying wetland bird behavior.</p>
+        <p>I am passionate about applying plant science to <strong>sustainable agriculture, agri-food industries, and quality assurance</strong>. I bring both laboratory precision and the ability to think at the systems level — connecting a contamination protocol to conservation impact.</p>
+        <p>Fluent in <strong>English and Sinhala</strong>, with a basic understanding of Tamil.</p>
+        <div class="awards-strip">
+          <span class="award-badge">🏆 Dean's List 2023/24</span>
+          <span class="award-badge">🏆 Dean's List 2024/25</span>
+          <span class="award-badge">🎓 GPA 3.64 / 4.00</span>
+        </div>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Undergraduate research projects across plant science, microbiology & ecology</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3.64</div>
+          <div class="stat-label">GPA — 2nd Class Upper Division, University of Colombo</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">0%</div>
+          <div class="stat-label">Contamination achieved with optimal T21 sterilization protocol</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">150+</div>
+          <div class="stat-label">Explants analyzed across 21 sterilization treatment combinations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="reveal">
+      <p class="section-label">02 · Research</p>
+      <h2 class="section-title">Four years of<br><em>field & lab</em> research</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <span class="project-icon">🧫</span>
+        <div class="project-year">Oct 2025 – May 2026 · Final Year Project</div>
+        <h3 class="project-title">In Vitro Establishment of Underutilized Fruit Crops in Sri Lanka</h3>
+        <p class="project-desc">Optimized surface sterilization protocols for tissue culture of Lovi, Lawulu, and Ambarella. Evaluated 21 treatment combinations across 150+ explants — achieving 0% contamination with the T21 protocol (fungicide pre-treatment + 50% Clorox + smaller explant size). Statistical analysis via Kruskal-Wallis, ANOVA, and Tukey HSD.</p>
+        <div class="project-tags">
+          <span class="tag">Tissue Culture</span>
+          <span class="tag">SPSS</span>
+          <span class="tag">ANOVA</span>
+          <span class="tag">Conservation</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-icon">🦠</span>
+        <div class="project-year">May 2024 – Jan 2025</div>
+        <h3 class="project-title">Salt Marsh Microorganisms for Sustainable Rice Cultivation</h3>
+        <p class="project-desc">Isolated and characterized microorganisms from Kalpitiya salt marshes to evaluate their plant growth-promoting potential under saline stress. Performed bioassays assessing phytohormone production and phosphate solubilization — exploring sustainable solutions for saline-affected farmland.</p>
+        <div class="project-tags">
+          <span class="tag">Microbiology</span>
+          <span class="tag">Saline Stress</span>
+          <span class="tag">Bioassay</span>
+          <span class="tag">Kalpitiya</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-icon">🌵</span>
+        <div class="project-year">Jan – Mar 2024</div>
+        <h3 class="project-title">CAM Metabolism Study in Kalanchoe pinnata (Akkapana)</h3>
+        <p class="project-desc">Investigated Crassulacean Acid Metabolism (CAM) in K. pinnata by measuring diurnal acid fluctuations through titrations and pH assays. Demonstrated characteristic CAM photosynthetic patterns, deepening understanding of drought-adapted plant physiology.</p>
+        <div class="project-tags">
+          <span class="tag">Plant Physiology</span>
+          <span class="tag">CAM</span>
+          <span class="tag">Biochemistry</span>
+          <span class="tag">Titration</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-icon">🐦</span>
+        <div class="project-year">Dec 2022 – Mar 2023</div>
+        <h3 class="project-title">Behavioral Study of Yellow Wagtail in a Wetland Ecosystem</h3>
+        <p class="project-desc">Conducted systematic field observations of Yellow Wagtail (Motacilla flava) behavioral patterns in a wetland habitat. Documented foraging, movement, and social behaviors — contributing to local biodiversity monitoring and wetland ecology data.</p>
+        <div class="project-tags">
+          <span class="tag">Field Ecology</span>
+          <span class="tag">Ethology</span>
+          <span class="tag">Biodiversity</span>
+          <span class="tag">Wetlands</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="reveal">
+      <p class="section-label">03 · Skills</p>
+      <h2 class="section-title">Tools of the<br><em>trade</em></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">🔬 Laboratory</div>
+        <ul class="skill-list">
+          <li>Plant tissue culture & in vitro propagation</li>
+          <li>Surface sterilization & aseptic technique</li>
+          <li>DNA extraction, PCR, gel electrophoresis</li>
+          <li>Microbial isolation & enumeration</li>
+          <li>UV-Vis spectrophotometry</li>
+          <li>LAF hoods & autoclaving</li>
+          <li>Post-harvest technology</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">📊 Data & Statistics</div>
+        <ul class="skill-list">
+          <li>SPSS — ANOVA, Kruskal-Wallis, Tukey HSD</li>
+          <li>Microsoft Excel — data visualization</li>
+          <li>Arcsine transformation for proportion data</li>
+          <li>MANOVA & multivariate analysis</li>
+          <li>Scientific report writing</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">✅ Quality & Safety</div>
+        <ul class="skill-list">
+          <li>HACCP certified</li>
+          <li>ISO 55001 — Asset Management</li>
+          <li>Quality control in laboratory settings</li>
+          <li>Forage Area Manager Job Simulation</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">🌿 Field & Other</div>
+        <ul class="skill-list">
+          <li>Ecological observation & behavioral recording</li>
+          <li>Wetland & biodiversity monitoring</li>
+          <li>Plant breeding fundamentals</li>
+          <li>Google Project Management (in progress)</li>
+          <li>English & Sinhala (fluent), Tamil (basic)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="reveal">
+      <p class="section-label">04 · Education & Certifications</p>
+      <h2 class="section-title">Academic<br><em>foundation</em></h2>
+    </div>
+    <div class="edu-grid">
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-period">2022 – 2026</div>
+          <div class="timeline-title">B.Sc. (Hons.) Plant Biotechnology</div>
+          <div class="timeline-sub">University of Colombo, Faculty of Science<br>2nd Class Upper Division · GPA 3.64/4.00<br>Dean's List: 2023/24 & 2024/25</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-period">2007 – 2020</div>
+          <div class="timeline-title">Wesley College, Colombo</div>
+          <div class="timeline-sub">G.C.E. A/L 2020: Chemistry A · Biology C · Physics C · General English A · Z-score 1.4621<br>G.C.E. O/L 2017: 9 A's</div>
+        </div>
+      </div>
+      <div class="cert-list reveal">
+        <div class="cert-item">
+          <span class="cert-icon">⚠️</span>
+          <div>
+            <div class="cert-name">HACCP Certification</div>
+            <div class="cert-org">Hazard Analysis Critical Control Points</div>
+          </div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">📋</span>
+          <div>
+            <div class="cert-name">ISO 55001</div>
+            <div class="cert-org">Fundamentals of Asset Management Systems</div>
+          </div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🖥️</span>
+          <div>
+            <div class="cert-name">Applied Information Technology (CAIT)</div>
+            <div class="cert-org">Sri Lanka Telecom Training Centre</div>
+          </div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">📦</span>
+          <div>
+            <div class="cert-name">Google Project Management Certificate</div>
+            <div class="cert-org">Coursera · In Progress</div>
+          </div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🏭</span>
+          <div>
+            <div class="cert-name">Forage Area Manager Job Simulation</div>
+            <div class="cert-org">Virtual Work Experience · 2026</div>
+          </div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🎵</span>
+          <div>
+            <div class="cert-name">ABRSM Music Theory — Grade 1–5</div>
+            <div class="cert-org">Piano Performance: Grade 1–3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE & LEADERSHIP -->
+  <section id="experience">
+    <div class="reveal">
+      <p class="section-label">05 · Experience & Leadership</p>
+      <h2 class="section-title">Beyond the<br><em>laboratory</em></h2>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card reveal">
+        <span class="exp-icon">📝</span>
+        <div>
+          <div class="exp-role">Examination Invigilator</div>
+          <div class="exp-org">Pearson Edexcel May/June 2026 Series</div>
+          <div class="exp-period">May 2026 – June 2026 · Lyceum International School, Wattala</div>
+          <div class="exp-desc">Managed international examination sessions with responsibility, integrity, and adherence to formal procedures under pressure.</div>
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <span class="exp-icon">👔</span>
+        <div>
+          <div class="exp-role">Vice President — SCM Student Chapter</div>
+          <div class="exp-org">Wesley College, Colombo</div>
+          <div class="exp-period">2019</div>
+          <div class="exp-desc">Led chapter activities and initiatives as Vice President, developing leadership, coordination, and communication skills.</div>
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <span class="exp-icon">🌳</span>
+        <div>
+          <div class="exp-role">Volunteer — Biodiversity Conservation</div>
+          <div class="exp-org">BOTSOC, University of Colombo</div>
+          <div class="exp-period">Jan 2026 & Jun 2026 · Diyagama Forest Area</div>
+          <div class="exp-desc">Participated in two conservation projects: a biodiversity initiative involving tree planting and ecosystem restoration, and a butterfly habitat development project planting ~50 plants at Diyagama Forest.</div>
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <span class="exp-icon">📚</span>
+        <div>
+          <div class="exp-role">Volunteer — Book Donation Campaign</div>
+          <div class="exp-org">Rural Sri Lanka</div>
+          <div class="exp-period">January 2018</div>
+          <div class="exp-desc">Helped organize a book donation campaign in a rural community, donating over 2,000 books to a school in need.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECT -->
+  <section id="connect">
+    <div class="reveal">
+      <p class="section-label">06 · Connect</p>
+      <h2 class="section-title">Let's grow<br>something <em>together</em></h2>
+    </div>
+    <p class="connect-subtitle reveal">
+      Open to opportunities in agribusiness, quality assurance, agricultural research, and plant biotechnology across Sri Lanka. Feel free to reach out.
+    </p>
+    <div class="connect-links reveal">
+      <a href="mailto:nisalwic@gmail.com" class="connect-card">
+        <span class="connect-card-icon">✉️</span>
+        <span class="connect-card-label">Email</span>
+        <span class="connect-card-value">nisalwic@gmail.com</span>
+      </a>
+      <a href="https://linkedin.com/in/nisal-wickramasinghe" target="_blank" class="connect-card">
+        <span class="connect-card-icon">💼</span>
+        <span class="connect-card-label">LinkedIn</span>
+        <span class="connect-card-value">Nisal Wickramasinghe</span>
+      </a>
+      <a href="https://github.com/nisalwickramasinghe" target="_blank" class="connect-card">
+        <span class="connect-card-icon">🐙</span>
+        <span class="connect-card-label">GitHub</span>
+        <span class="connect-card-value">nisalwickramasinghe</span>
+      </a>
+      <a href="tel:+94772365651" class="connect-card">
+        <span class="connect-card-icon">📞</span>
+        <span class="connect-card-label">Phone</span>
+        <span class="connect-card-value">+94 77 236 5651</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Nisal Theekshana Wickramasinghe · Plant Biotechnology · University of Colombo</p>
+  </footer>
+
+  <script>
+    // ── CURSOR ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    const aura = document.getElementById('aura');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+      aura.style.left = mx + 'px';
+      aura.style.top  = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+        ring.style.width = '56px';
+        ring.style.height = '56px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+      });
+    });
+
+    // ── PARTICLES ──
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (let i = 0; i < 55; i++) {
+      particles.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        alpha: Math.random() * 0.5 + 0.1
+      });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W;
+        if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H;
+        if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(45,184,122,${p.alpha})`;
+        ctx.fill();
+      });
+      // draw connecting lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(45,184,122,${0.07 * (1 - dist/120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    // ── SCROLL REVEAL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ── STAGGER PROJECT CARDS ──
+    document.querySelectorAll('.project-card, .skill-group, .cert-item, .exp-card, .stat-card').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 0.1 + 's';
+    });
+  </script>
+</body>
+</html>
